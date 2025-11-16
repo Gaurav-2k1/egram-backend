@@ -1,0 +1,31 @@
+package in.gram.gov.app.egram_service.dto.response;
+
+import in.gram.gov.app.egram_service.constants.enums.PanchayatStatus;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class PanchayatResponseDTO {
+    private Long panchayatId;
+    private String panchayatName;
+    private String slug;
+    private String district;
+    private String state;
+    private String address;
+    private String contactPhone;
+    private String contactEmail;
+    private String logoUrl;
+    private String heroImageUrl;
+    private String description;
+    private String aboutText;
+    private String officeAddress;
+    private String officePhone;
+    private String officeEmail;
+    private String mapCoordinates;
+    private String officeHours;
+    private PanchayatStatus status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+}
+

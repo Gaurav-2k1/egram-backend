@@ -1,0 +1,82 @@
+package in.gram.gov.app.egram_service.service;
+
+import in.gram.gov.app.egram_service.constants.enums.PanchayatStatus;
+import in.gram.gov.app.egram_service.constants.exception.DuplicateResourceException;
+import in.gram.gov.app.egram_service.constants.exception.ResourceNotFoundException;
+import in.gram.gov.app.egram_service.domain.entity.Panchayat;
+import in.gram.gov.app.egram_service.domain.repository.PanchayatRepository;
+import in.gram.gov.app.egram_service.dto.filters.PanchayatFilter;
+import in.gram.gov.app.egram_service.utility.SpecificationBuilder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class PanchayatService {
+    private final PanchayatRepository panchayatRepository;
+
+    @Transactional
+    public Panchayat create(Panchayat panchayat) {
+        if (panchayatRepository.existsBySlug(panchayat.getSlug())) {
+            throw new DuplicateResourceException("Panchayat with slug " + panchayat.getSlug() + " already exists");
+        }
+        return panchayatRepository.save(panchayat);
+    }
+
+    public Panchayat findById(Long id) {
+        return panchayatRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Panchayat", id));
+    }
+
+    public Panchayat findBySlug(String slug) {
+        return panchayatRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Panchayat with slug " + slug + " not found"));
+    }
+
+    public Page<Panchayat> findAll(Pageable pageable) {
+        return panchayatRepository.findAll(pageable);
+    }
+
+    public Page<Panchayat> findByStatus(PanchayatStatus status, Pageable pageable) {
+        return panchayatRepository.findByStatus(status, pageable);
+    }
+
+
+    public Specification<Panchayat> buildSpecification(PanchayatFilter filter) {
+        return SpecificationBuilder.<Panchayat>builder()
+                .equalTo("status", filter.getStatus())
+                .equalTo("district", filter.getDistrict())
+                .equalTo("state", filter.getState())
+                .build();
+    }
+
+    public Page<Panchayat> findByFilters(PanchayatFilter panchayatFilter) {
+        Pageable pageable = panchayatFilter.createPageable(panchayatFilter);
+        Specification<Panchayat> panchayatSpecification = buildSpecification(panchayatFilter);
+        return panchayatRepository.findAll(panchayatSpecification, pageable);
+    }
+
+    @Transactional
+    public Panchayat update(Panchayat panchayat) {
+        return panchayatRepository.save(panchayat);
+    }
+
+    @Transactional
+    public void updateStatus(Long id, PanchayatStatus status) {
+        Panchayat panchayat = findById(id);
+        panchayat.setStatus(status);
+        panchayatRepository.save(panchayat);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Panchayat panchayat = findById(id);
+        panchayat.setStatus(PanchayatStatus.DELETED);
+        panchayatRepository.save(panchayat);
+    }
+}
+

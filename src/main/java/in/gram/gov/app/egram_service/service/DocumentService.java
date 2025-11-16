@@ -1,0 +1,57 @@
+package in.gram.gov.app.egram_service.service;
+
+import in.gram.gov.app.egram_service.constants.enums.DocumentCategory;
+import in.gram.gov.app.egram_service.constants.exception.ResourceNotFoundException;
+import in.gram.gov.app.egram_service.domain.entity.Document;
+import in.gram.gov.app.egram_service.domain.repository.DocumentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class DocumentService {
+    private final DocumentRepository documentRepository;
+
+    @Transactional
+    public Document create(Document document) {
+        return documentRepository.save(document);
+    }
+
+    public Document findById(Long id) {
+        return documentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document", id));
+    }
+
+    public Page<Document> findByPanchayatId(Long panchayatId, Pageable pageable) {
+        return documentRepository.findByPanchayatId(panchayatId, pageable);
+    }
+
+    public Page<Document> findByPanchayatIdAndCategory(Long panchayatId, DocumentCategory category, Pageable pageable) {
+        return documentRepository.findByPanchayatIdAndCategory(panchayatId, category, pageable);
+    }
+
+    public Page<Document> findByPanchayatSlug(String slug, Pageable pageable) {
+        return documentRepository.findByPanchayatSlug(slug, pageable);
+    }
+
+    @Transactional
+    public Document update(Document document) {
+        return documentRepository.save(document);
+    }
+
+    @Transactional
+    public void incrementDownloadCount(Long id) {
+        Document document = findById(id);
+        document.setDownloadCount(document.getDownloadCount() + 1);
+        documentRepository.save(document);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        documentRepository.deleteById(id);
+    }
+}
+
