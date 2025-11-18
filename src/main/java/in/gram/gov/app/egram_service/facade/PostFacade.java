@@ -9,8 +9,8 @@ import in.gram.gov.app.egram_service.dto.filters.PostFilter;
 import in.gram.gov.app.egram_service.dto.request.PostRequestDTO;
 import in.gram.gov.app.egram_service.dto.response.PostResponseDTO;
 import in.gram.gov.app.egram_service.service.*;
+import in.gram.gov.app.egram_service.transformer.PostTransformer;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ public class PostFacade {
     private final UserService userService;
     private final LikeService likeService;
     private final CommentService commentService;
-    private final ModelMapper modelMapper;
 
     @Transactional
     public PostResponseDTO create(PostRequestDTO request, String email) {
@@ -89,13 +88,9 @@ public class PostFacade {
     }
 
     private PostResponseDTO mapToResponse(Post post) {
-        PostResponseDTO dto = modelMapper.map(post, PostResponseDTO.class);
-        dto.setPanchayatId(post.getPanchayat().getPanchayatId());
-        dto.setAuthorId(post.getAuthor().getUserId());
-        dto.setAuthorName(post.getAuthor().getName());
-        dto.setLikesCount(likeService.countByPostId(post.getPostId()));
-        dto.setCommentsCount((long) commentService.findAllByPostId(post.getPostId()).size());
-        return dto;
+        Long likesCount = likeService.countByPostId(post.getId());
+        Long commentsCount = (long) commentService.findAllByPostId(post.getId()).size();
+        return PostTransformer.toDTO(post, likesCount, commentsCount);
     }
 }
 

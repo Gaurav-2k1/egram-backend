@@ -2,6 +2,10 @@ spring:
   application:
     name: egram-platform
 
+#  datasource:
+#    url: jdbc:postgresql://yamanote.proxy.rlwy.net:48547/railway?currentSchema=egram_service
+#    username: ${DB_USERNAME:postgres}
+#    password: ${DB_PASSWORD:ppdBYaCppKSDbduKiHnouelOWRPmKZwK}
   datasource:
     url: jdbc:postgresql://yamanote.proxy.rlwy.net:48547/railway?currentSchema=egram_service
     username: ${DB_USERNAME:postgres}
@@ -17,7 +21,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate  # Use validate in production, update in development
+      ddl-auto: create  # Use validate in production, update in development
     properties:
       hibernate:
         format_sql: true

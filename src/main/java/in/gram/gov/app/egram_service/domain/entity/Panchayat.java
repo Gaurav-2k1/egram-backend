@@ -21,7 +21,7 @@ import java.util.List;
                 @Index(name = "idx_panchayat_status", columnList = "status"),
                 @Index(name = "idx_panchayat_district_state", columnList = "district, state")
         })
-@SQLDelete(sql = "UPDATE panchayats SET status = 'INACTIVE' WHERE panchayat_id = ?")
+@SQLDelete(sql = "UPDATE panchayats SET status = 'INACTIVE' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Getter
 @Setter
@@ -32,8 +32,8 @@ public class Panchayat extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "panchayat_id")
-    private Long panchayatId;
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank(message = "Panchayat name is required")
     @Size(max = 200, message = "Panchayat name must not exceed 200 characters")

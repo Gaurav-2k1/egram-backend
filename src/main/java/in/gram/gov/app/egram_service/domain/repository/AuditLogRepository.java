@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
     @Query("SELECT a FROM AuditLog a WHERE " +
-           "(:panchayatId IS NULL OR a.panchayat.panchayatId = :panchayatId) AND " +
+           "(:panchayatId IS NULL OR a.panchayat.id = :panchayatId) AND " +
            "(:actionType IS NULL OR a.actionType = :actionType) AND " +
            "(:startDate IS NULL OR a.createdAt >= :startDate) AND " +
            "(:endDate IS NULL OR a.createdAt <= :endDate) " +

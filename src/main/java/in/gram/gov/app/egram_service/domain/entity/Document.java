@@ -23,8 +23,8 @@ public class Document extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "document_id")
-    private Long documentId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "panchayat_id", nullable = false, foreignKey = @ForeignKey(name = "fk_document_panchayat"))

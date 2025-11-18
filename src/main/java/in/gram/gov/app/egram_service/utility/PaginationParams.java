@@ -29,7 +29,7 @@ public class PaginationParams {
             message = "Page size must be 9999 or less"
     )
     int pageSize = 10;
-    String sortBy = "panchayatId";
+    String sortBy = "id";
     Sort.Direction sortOrder = Sort.Direction.ASC;
     String searchQuery;
 

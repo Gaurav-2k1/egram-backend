@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
-    @Query("SELECT d FROM Document d WHERE d.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT d FROM Document d WHERE d.panchayat.id = :panchayatId")
     Page<Document> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
-    @Query("SELECT d FROM Document d WHERE d.panchayat.panchayatId = :panchayatId AND " +
+    @Query("SELECT d FROM Document d WHERE d.panchayat.id = :panchayatId AND " +
            "(:category IS NULL OR d.category = :category)")
     Page<Document> findByPanchayatIdAndCategory(@Param("panchayatId") Long panchayatId,
                                                  @Param("category") DocumentCategory category,

@@ -21,7 +21,7 @@ import java.util.List;
                 @Index(name = "idx_user_panchayat", columnList = "panchayat_id"),
                 @Index(name = "idx_user_role_status", columnList = "role, status")
         })
-@SQLDelete(sql = "UPDATE users SET status = 'INACTIVE' WHERE user_id = ?")
+@SQLDelete(sql = "UPDATE users SET status = 'INACTIVE' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Getter
 @Setter
@@ -32,8 +32,8 @@ public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank(message = "Name is required")
     @Size(max = 100)

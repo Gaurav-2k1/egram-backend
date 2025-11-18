@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
-    @Query("SELECT p FROM Post p WHERE p.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT p FROM Post p WHERE p.panchayat.id = :panchayatId")
     Page<Post> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
 
-    @Query("SELECT p FROM Post p WHERE p.panchayat.panchayatId = :panchayatId AND p.status = :status")
+    @Query("SELECT p FROM Post p WHERE p.panchayat.id = :panchayatId AND p.status = :status")
     Page<Post> findByPanchayatIdAndStatus(@Param("panchayatId") Long panchayatId,
                                           @Param("status") PostStatus status,
                                           Pageable pageable);
@@ -23,7 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     @Query("SELECT p FROM Post p WHERE p.panchayat.slug = :slug AND p.status = 'PUBLISHED' ORDER BY p.publishedAt DESC")
     Page<Post> findPublishedBySlug(@Param("slug") String slug, Pageable pageable);
 
-    @Query("SELECT p FROM Post p WHERE p.postId = :postId AND p.panchayat.slug = :slug AND p.status = 'PUBLISHED'")
+    @Query("SELECT p FROM Post p WHERE p.id = :postId AND p.panchayat.slug = :slug AND p.status = 'PUBLISHED'")
     Post findPublishedByIdAndSlug(@Param("postId") Long postId, @Param("slug") String slug);
 }
 

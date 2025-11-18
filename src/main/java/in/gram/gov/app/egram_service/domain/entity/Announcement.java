@@ -30,8 +30,8 @@ public class Announcement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "announcement_id")
-    private Long announcementId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "panchayat_id", nullable = false, foreignKey = @ForeignKey(name = "fk_announcement_panchayat"))

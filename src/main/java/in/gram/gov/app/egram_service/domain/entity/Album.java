@@ -25,8 +25,8 @@ public class Album extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "album_id")
-    private Long albumId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "panchayat_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_panchayat"))

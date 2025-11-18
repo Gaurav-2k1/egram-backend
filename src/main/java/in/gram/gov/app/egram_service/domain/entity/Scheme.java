@@ -28,8 +28,8 @@ public class Scheme extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "scheme_id")
-    private Long schemeId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "panchayat_id", nullable = false, foreignKey = @ForeignKey(name = "fk_scheme_panchayat"))

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
-    @Query("SELECT a FROM Announcement a WHERE a.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT a FROM Announcement a WHERE a.panchayat.id = :panchayatId")
     Page<Announcement> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
     @Query("SELECT a FROM Announcement a WHERE a.panchayat.slug = :slug AND a.isActive = true AND " +

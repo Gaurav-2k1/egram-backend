@@ -18,19 +18,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
     
-    @Query("SELECT u FROM User u WHERE u.panchayat.panchayatId = :panchayatId AND u.role = :role")
+    @Query("SELECT u FROM User u WHERE u.panchayat.id = :panchayatId AND u.role = :role")
     List<User> findByPanchayatIdAndRole(@Param("panchayatId") Long panchayatId, @Param("role") UserRole role);
     
-    @Query("SELECT COUNT(u) FROM User u WHERE u.panchayat.panchayatId = :panchayatId AND u.role = :role AND u.status = :status")
-    Long countByPanchayatIdAndRoleAndStatus(@Param("panchayatId") Long panchayatId, 
+    @Query("SELECT COUNT(u) FROM User u WHERE u.panchayat.id = :panchayatId AND u.role = :role AND u.status = :status")
+    Long countByPanchayatIdAndRoleAndStatus(@Param("panchayatId") Long panchayatId,
                                              @Param("role") UserRole role,
                                              @Param("status") UserStatus status);
     
-    @Query("SELECT u FROM User u WHERE u.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT u FROM User u WHERE u.panchayat.id = :panchayatId")
     Page<User> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
     @Query("SELECT u FROM User u WHERE " +
-           "(:panchayatId IS NULL OR u.panchayat.panchayatId = :panchayatId) AND " +
+           "(:panchayatId IS NULL OR u.panchayat.id = :panchayatId) AND " +
            "(:role IS NULL OR u.role = :role) AND " +
            "(:status IS NULL OR u.status = :status)")
     Page<User> findByFilters(@Param("panchayatId") Long panchayatId,

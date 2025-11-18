@@ -8,8 +8,8 @@ import in.gram.gov.app.egram_service.constants.enums.PanchayatStatus;
 import in.gram.gov.app.egram_service.constants.security.TenantContext;
 import in.gram.gov.app.egram_service.domain.entity.Panchayat;
 import in.gram.gov.app.egram_service.service.*;
+import in.gram.gov.app.egram_service.transformer.PanchayatTransformer;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,36 +25,35 @@ public class PanchayatFacade {
     private final SchemeService schemeService;
     private final DocumentService documentService;
     private final GalleryImageService galleryImageService;
-    private final ModelMapper modelMapper;
 
     @Transactional
     public PanchayatResponseDTO create(PanchayatRequestDTO request) {
-        Panchayat panchayat = modelMapper.map(request, Panchayat.class);
+        Panchayat panchayat = PanchayatTransformer.toEntity(request);
         panchayat = panchayatService.create(panchayat);
-        return modelMapper.map(panchayat, PanchayatResponseDTO.class);
+        return PanchayatTransformer.toDTO(panchayat);
     }
 
     public PanchayatResponseDTO getById(Long id) {
         Panchayat panchayat = panchayatService.findById(id);
-        return modelMapper.map(panchayat, PanchayatResponseDTO.class);
+        return PanchayatTransformer.toDTO(panchayat);
     }
 
     public PanchayatResponseDTO getBySlug(String slug) {
         Panchayat panchayat = panchayatService.findBySlug(slug);
-        return modelMapper.map(panchayat, PanchayatResponseDTO.class);
+        return PanchayatTransformer.toDTO(panchayat);
     }
 
     public Page<PanchayatResponseDTO> getAll(PanchayatFilter panchayatFilter) {
         Page<Panchayat> panchayats = panchayatService.findByFilters(panchayatFilter);
-        return panchayats.map(p -> modelMapper.map(p, PanchayatResponseDTO.class));
+        return panchayats.map(PanchayatTransformer::toDTO);
     }
 
     @Transactional
     public PanchayatResponseDTO update(Long id, PanchayatRequestDTO request) {
         Panchayat panchayat = panchayatService.findById(id);
-        modelMapper.map(request, panchayat);
+        PanchayatTransformer.updateEntity(panchayat, request);
         panchayat = panchayatService.update(panchayat);
-        return modelMapper.map(panchayat, PanchayatResponseDTO.class);
+        return PanchayatTransformer.toDTO(panchayat);
     }
 
     @Transactional

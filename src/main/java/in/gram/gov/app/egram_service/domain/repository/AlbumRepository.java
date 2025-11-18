@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-    @Query("SELECT a FROM Album a WHERE a.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT a FROM Album a WHERE a.panchayat.id = :panchayatId")
     Page<Album> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
     @Query("SELECT a FROM Album a WHERE a.panchayat.slug = :slug")

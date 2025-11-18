@@ -1,17 +1,17 @@
 package in.gram.gov.app.egram_service.facade;
 
-import in.gram.gov.app.egram_service.dto.request.UserRequestDTO;
-import in.gram.gov.app.egram_service.dto.response.UserResponseDTO;
 import in.gram.gov.app.egram_service.constants.enums.UserRole;
 import in.gram.gov.app.egram_service.constants.enums.UserStatus;
 import in.gram.gov.app.egram_service.constants.exception.MaxAdminsExceededException;
 import in.gram.gov.app.egram_service.constants.security.TenantContext;
 import in.gram.gov.app.egram_service.domain.entity.Panchayat;
 import in.gram.gov.app.egram_service.domain.entity.User;
+import in.gram.gov.app.egram_service.dto.request.UserRequestDTO;
+import in.gram.gov.app.egram_service.dto.response.UserResponseDTO;
 import in.gram.gov.app.egram_service.service.PanchayatService;
 import in.gram.gov.app.egram_service.service.UserService;
+import in.gram.gov.app.egram_service.transformer.UserTransformer;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +24,6 @@ public class UserFacade {
     private final UserService userService;
     private final PanchayatService panchayatService;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
     private static final int MAX_ADMINS = 4;
 
     @Transactional
@@ -50,13 +49,13 @@ public class UserFacade {
                 .build();
 
         user = userService.create(user);
-        return modelMapper.map(user, UserResponseDTO.class);
+        return UserTransformer.toDTO(user);
     }
 
     public Page<UserResponseDTO> getTeamMembers(Pageable pageable) {
         Long tenantId = TenantContext.getTenantId();
         Page<User> users = userService.findByPanchayatId(tenantId, pageable);
-        return users.map(u -> modelMapper.map(u, UserResponseDTO.class));
+        return users.map(UserTransformer::toDTO);
     }
 
     @Transactional
@@ -71,7 +70,7 @@ public class UserFacade {
 
     public Page<UserResponseDTO> getAll(Long panchayatId, UserRole role, UserStatus status, Pageable pageable) {
         Page<User> users = userService.findByFilters(panchayatId, role, status, pageable);
-        return users.map(u -> modelMapper.map(u, UserResponseDTO.class));
+        return users.map(UserTransformer::toDTO);
     }
 }
 

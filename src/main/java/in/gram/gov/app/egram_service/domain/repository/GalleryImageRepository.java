@@ -10,17 +10,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GalleryImageRepository extends JpaRepository<GalleryImage, Long> {
-    @Query("SELECT g FROM GalleryImage g WHERE g.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT g FROM GalleryImage g WHERE g.panchayat.id = :panchayatId")
     Page<GalleryImage> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
-    @Query("SELECT g FROM GalleryImage g WHERE g.panchayat.panchayatId = :panchayatId AND " +
-           "(:albumId IS NULL OR g.album.albumId = :albumId)")
+    @Query("SELECT g FROM GalleryImage g WHERE g.panchayat.id = :panchayatId AND " +
+           "(:albumId IS NULL OR g.album.id = :albumId)")
     Page<GalleryImage> findByPanchayatIdAndAlbumId(@Param("panchayatId") Long panchayatId,
                                                      @Param("albumId") Long albumId,
                                                      Pageable pageable);
     
     @Query("SELECT g FROM GalleryImage g WHERE g.panchayat.slug = :slug AND " +
-           "(:albumId IS NULL OR g.album.albumId = :albumId) ORDER BY g.displayOrder ASC, g.createdAt DESC")
+           "(:albumId IS NULL OR g.album.id = :albumId) ORDER BY g.displayOrder ASC, g.createdAt DESC")
     Page<GalleryImage> findByPanchayatSlugAndAlbumId(@Param("slug") String slug,
                                                        @Param("albumId") Long albumId,
                                                        Pageable pageable);

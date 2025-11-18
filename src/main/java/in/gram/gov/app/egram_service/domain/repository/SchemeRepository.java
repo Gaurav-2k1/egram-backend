@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SchemeRepository extends JpaRepository<Scheme, Long> {
-    @Query("SELECT s FROM Scheme s WHERE s.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT s FROM Scheme s WHERE s.panchayat.id = :panchayatId")
     Page<Scheme> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
-    @Query("SELECT s FROM Scheme s WHERE s.panchayat.panchayatId = :panchayatId AND s.status = :status")
+    @Query("SELECT s FROM Scheme s WHERE s.panchayat.id = :panchayatId AND s.status = :status")
     Page<Scheme> findByPanchayatIdAndStatus(@Param("panchayatId") Long panchayatId,
                                               @Param("status") SchemeStatus status,
                                               Pageable pageable);

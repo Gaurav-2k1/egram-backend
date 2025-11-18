@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface AnalyticsRepository extends JpaRepository<Analytics, Long> {
-    @Query("SELECT a FROM Analytics a WHERE a.panchayat.panchayatId = :panchayatId")
+    @Query("SELECT a FROM Analytics a WHERE a.panchayat.id = :panchayatId")
     Page<Analytics> findByPanchayatId(@Param("panchayatId") Long panchayatId, Pageable pageable);
     
-    @Query("SELECT COUNT(a) FROM Analytics a WHERE a.panchayat.panchayatId = :panchayatId AND " +
+    @Query("SELECT COUNT(a) FROM Analytics a WHERE a.panchayat.id = :panchayatId AND " +
            "a.createdAt >= :startDate AND a.createdAt <= :endDate")
     Long countByPanchayatIdAndDateRange(@Param("panchayatId") Long panchayatId,
                                          @Param("startDate") LocalDateTime startDate,
                                          @Param("endDate") LocalDateTime endDate);
     
-    @Query("SELECT COUNT(DISTINCT a.sessionId) FROM Analytics a WHERE a.panchayat.panchayatId = :panchayatId AND " +
+    @Query("SELECT COUNT(DISTINCT a.sessionId) FROM Analytics a WHERE a.panchayat.id = :panchayatId AND " +
            "a.createdAt >= :startDate AND a.createdAt <= :endDate")
     Long countUniqueSessionsByPanchayatIdAndDateRange(@Param("panchayatId") Long panchayatId,
                                                         @Param("startDate") LocalDateTime startDate,
