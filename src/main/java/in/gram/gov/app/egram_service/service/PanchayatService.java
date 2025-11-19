@@ -47,11 +47,36 @@ public class PanchayatService {
 
 
     public Specification<Panchayat> buildSpecification(PanchayatFilter filter) {
-        return SpecificationBuilder.<Panchayat>builder()
-                .equalTo("status", filter.getStatus())
-                .equalTo("district", filter.getDistrict())
-                .equalTo("state", filter.getState())
-                .build();
+        Specification<Panchayat> spec = Specification.where(null);
+        
+        if (filter.getStatus() != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), filter.getStatus()));
+        }
+        
+        if (filter.getDistrict() != null && !filter.getDistrict().trim().isEmpty()) {
+            spec = spec.and((root, query, cb) -> 
+                cb.like(cb.lower(root.get("district")), "%" + filter.getDistrict().toLowerCase() + "%"));
+        }
+        
+        if (filter.getState() != null && !filter.getState().trim().isEmpty()) {
+            spec = spec.and((root, query, cb) -> 
+                cb.like(cb.lower(root.get("state")), "%" + filter.getState().toLowerCase() + "%"));
+        }
+        
+        // Search query - search in name, slug, district, or state
+        if (filter.getSearchQuery() != null && !filter.getSearchQuery().trim().isEmpty()) {
+            String searchTerm = filter.getSearchQuery().toLowerCase().trim();
+            spec = spec.and((root, query, cb) -> 
+                cb.or(
+                    cb.like(cb.lower(root.get("panchayatName")), "%" + searchTerm + "%"),
+                    cb.like(cb.lower(root.get("slug")), "%" + searchTerm + "%"),
+                    cb.like(cb.lower(root.get("district")), "%" + searchTerm + "%"),
+                    cb.like(cb.lower(root.get("state")), "%" + searchTerm + "%")
+                )
+            );
+        }
+        
+        return spec;
     }
 
     public Page<Panchayat> findByFilters(PanchayatFilter panchayatFilter) {

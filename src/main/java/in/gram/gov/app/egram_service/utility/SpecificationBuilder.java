@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,32 @@ public class SpecificationBuilder<T> {
     public Specification<T> build() {
         return specifications.stream()
                 .reduce(Specification.unrestricted(), Specification::and);
+    }
+
+    public SpecificationBuilder<T> dateTimeRange(String fieldName, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (startDateTime != null && endDateTime != null) {
+            validateFieldName(fieldName);
+            if (startDateTime.isAfter(endDateTime)) {
+                throw new IllegalArgumentException("Start date-time cannot be after end date-time");
+            }
+
+            specifications.add((root, query, cb) -> {
+                try {
+                    Path<LocalDateTime> dateTimePath = getPath(root, fieldName);
+                    return cb.between(dateTimePath, startDateTime, endDateTime);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Error applying date-time range filter on field: " + fieldName, e);
+                }
+            });
+        }
+        return this;
+    }
+
+    // Validation methods
+    private void validateFieldName(String fieldName) {
+        if (fieldName == null || fieldName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Field name cannot be null or empty");
+        }
     }
 
     // Utility methods

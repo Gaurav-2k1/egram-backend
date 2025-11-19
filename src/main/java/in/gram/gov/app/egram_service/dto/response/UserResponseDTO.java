@@ -12,6 +12,7 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private String phone;
+    private String designation;
     private UserRole role;
     private UserStatus status;
     private Long panchayatId;

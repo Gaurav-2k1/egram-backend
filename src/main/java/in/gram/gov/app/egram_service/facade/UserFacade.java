@@ -72,5 +72,11 @@ public class UserFacade {
         Page<User> users = userService.findByFilters(panchayatId, role, status, pageable);
         return users.map(UserTransformer::toDTO);
     }
+
+    public Page<UserResponseDTO> getTeamMembersBySlug(String slug, Pageable pageable) {
+        Panchayat panchayat = panchayatService.findBySlug(slug);
+        Page<User> users = userService.findByPanchayatId(panchayat.getId(), pageable);
+        return users.map(UserTransformer::toDTO);
+    }
 }
 

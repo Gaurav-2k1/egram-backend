@@ -79,6 +79,21 @@ public class Panchayat extends BaseEntity {
     @Column(name = "about_text", columnDefinition = "TEXT")
     private String aboutText;
 
+    @Size(max = 200)
+    @Column(name = "hero_title", length = 200)
+    private String heroTitle;
+
+    @Size(max = 200)
+    @Column(name = "hero_subtitle", length = 200)
+    private String heroSubtitle;
+
+    @Size(max = 200)
+    @Column(name = "about_title", length = 200)
+    private String aboutTitle;
+
+    @Column(name = "about_features", columnDefinition = "TEXT")
+    private String aboutFeatures; // JSON array stored as string
+
     @Column(name = "office_address", columnDefinition = "TEXT")
     private String officeAddress;
 

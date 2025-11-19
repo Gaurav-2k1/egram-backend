@@ -16,6 +16,7 @@ public class UserTransformer {
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         dto.setPhone(user.getPhone());
+        dto.setDesignation(user.getDesignation());
         dto.setRole(user.getRole());
         dto.setStatus(user.getStatus());
         dto.setLastLogin(user.getLastLogin());

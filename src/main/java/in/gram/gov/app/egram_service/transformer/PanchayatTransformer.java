@@ -24,6 +24,10 @@ public class PanchayatTransformer {
         dto.setHeroImageUrl(panchayat.getHeroImageUrl());
         dto.setDescription(panchayat.getDescription());
         dto.setAboutText(panchayat.getAboutText());
+        dto.setHeroTitle(panchayat.getHeroTitle());
+        dto.setHeroSubtitle(panchayat.getHeroSubtitle());
+        dto.setAboutTitle(panchayat.getAboutTitle());
+        dto.setAboutFeatures(panchayat.getAboutFeatures());
         dto.setOfficeAddress(panchayat.getOfficeAddress());
         dto.setOfficePhone(panchayat.getOfficePhone());
         dto.setOfficeEmail(panchayat.getOfficeEmail());
@@ -51,11 +55,17 @@ public class PanchayatTransformer {
                 .contactEmail(dto.getContactEmail())
                 .description(dto.getDescription())
                 .aboutText(dto.getAboutText())
+                .heroTitle(dto.getHeroTitle())
+                .heroSubtitle(dto.getHeroSubtitle())
+                .aboutTitle(dto.getAboutTitle())
+                .aboutFeatures(dto.getAboutFeatures())
                 .officeAddress(dto.getOfficeAddress())
                 .officePhone(dto.getOfficePhone())
                 .officeEmail(dto.getOfficeEmail())
                 .mapCoordinates(dto.getMapCoordinates())
                 .officeHours(dto.getOfficeHours())
+                .logoUrl(dto.getLogoUrl())
+                .heroImageUrl(dto.getHeroImageUrl())
                 .build();
     }
 
@@ -64,20 +74,67 @@ public class PanchayatTransformer {
             return;
         }
         
-        panchayat.setPanchayatName(dto.getPanchayatName());
-        panchayat.setSlug(dto.getSlug());
-        panchayat.setDistrict(dto.getDistrict());
-        panchayat.setState(dto.getState());
-        panchayat.setAddress(dto.getAddress());
-        panchayat.setContactPhone(dto.getContactPhone());
-        panchayat.setContactEmail(dto.getContactEmail());
-        panchayat.setDescription(dto.getDescription());
-        panchayat.setAboutText(dto.getAboutText());
-        panchayat.setOfficeAddress(dto.getOfficeAddress());
-        panchayat.setOfficePhone(dto.getOfficePhone());
-        panchayat.setOfficeEmail(dto.getOfficeEmail());
-        panchayat.setMapCoordinates(dto.getMapCoordinates());
-        panchayat.setOfficeHours(dto.getOfficeHours());
+        // Only update fields that are provided (not null)
+        if (dto.getPanchayatName() != null) {
+            panchayat.setPanchayatName(dto.getPanchayatName());
+        }
+        if (dto.getSlug() != null) {
+            panchayat.setSlug(dto.getSlug());
+        }
+        if (dto.getDistrict() != null) {
+            panchayat.setDistrict(dto.getDistrict());
+        }
+        if (dto.getState() != null) {
+            panchayat.setState(dto.getState());
+        }
+        if (dto.getAddress() != null) {
+            panchayat.setAddress(dto.getAddress());
+        }
+        if (dto.getContactPhone() != null) {
+            panchayat.setContactPhone(dto.getContactPhone());
+        }
+        if (dto.getContactEmail() != null) {
+            panchayat.setContactEmail(dto.getContactEmail());
+        }
+        if (dto.getDescription() != null) {
+            panchayat.setDescription(dto.getDescription());
+        }
+        if (dto.getAboutText() != null) {
+            panchayat.setAboutText(dto.getAboutText());
+        }
+        if (dto.getHeroTitle() != null) {
+            panchayat.setHeroTitle(dto.getHeroTitle());
+        }
+        if (dto.getHeroSubtitle() != null) {
+            panchayat.setHeroSubtitle(dto.getHeroSubtitle());
+        }
+        if (dto.getAboutTitle() != null) {
+            panchayat.setAboutTitle(dto.getAboutTitle());
+        }
+        if (dto.getAboutFeatures() != null) {
+            panchayat.setAboutFeatures(dto.getAboutFeatures());
+        }
+        if (dto.getOfficeAddress() != null) {
+            panchayat.setOfficeAddress(dto.getOfficeAddress());
+        }
+        if (dto.getOfficePhone() != null) {
+            panchayat.setOfficePhone(dto.getOfficePhone());
+        }
+        if (dto.getOfficeEmail() != null) {
+            panchayat.setOfficeEmail(dto.getOfficeEmail());
+        }
+        if (dto.getMapCoordinates() != null) {
+            panchayat.setMapCoordinates(dto.getMapCoordinates());
+        }
+        if (dto.getOfficeHours() != null) {
+            panchayat.setOfficeHours(dto.getOfficeHours());
+        }
+        if (dto.getLogoUrl() != null) {
+            panchayat.setLogoUrl(dto.getLogoUrl());
+        }
+        if (dto.getHeroImageUrl() != null) {
+            panchayat.setHeroImageUrl(dto.getHeroImageUrl());
+        }
     }
 }
 

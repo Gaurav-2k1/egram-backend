@@ -19,6 +19,10 @@ public class PanchayatResponseDTO {
     private String heroImageUrl;
     private String description;
     private String aboutText;
+    private String heroTitle;
+    private String heroSubtitle;
+    private String aboutTitle;
+    private String aboutFeatures; // JSON array stored as string
     private String officeAddress;
     private String officePhone;
     private String officeEmail;

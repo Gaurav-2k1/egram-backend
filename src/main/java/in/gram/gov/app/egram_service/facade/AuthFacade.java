@@ -1,8 +1,10 @@
 package in.gram.gov.app.egram_service.facade;
 
+import in.gram.gov.app.egram_service.constants.enums.PanchayatStatus;
 import in.gram.gov.app.egram_service.constants.enums.UserRole;
 import in.gram.gov.app.egram_service.constants.enums.UserStatus;
 import in.gram.gov.app.egram_service.constants.exception.BadRequestException;
+import in.gram.gov.app.egram_service.constants.exception.ResourceNotFoundException;
 import in.gram.gov.app.egram_service.constants.exception.UnauthorizedException;
 import in.gram.gov.app.egram_service.constants.security.JwtTokenProvider;
 import in.gram.gov.app.egram_service.domain.entity.Panchayat;
@@ -60,6 +62,7 @@ public class AuthFacade {
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
+                .designation(request.getDesignation())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.SUPER_ADMIN)
                 .status(UserStatus.ACTIVE)
@@ -72,12 +75,35 @@ public class AuthFacade {
         if (request.getPanchayatSlug() == null) {
             throw new BadRequestException("Panchayat slug is required for Panchayat Admin registration");
         }
-        Panchayat panchayat = panchayatService.findBySlug(request.getPanchayatSlug());
+        
+        // Try to find existing panchayat, or create new one if it doesn't exist
+        Panchayat panchayat;
+        try {
+            panchayat = panchayatService.findBySlug(request.getPanchayatSlug());
+        } catch (ResourceNotFoundException e) {
+            // Panchayat doesn't exist, create it with provided details
+            String panchayatName = request.getPanchayatName() != null && !request.getPanchayatName().trim().isEmpty()
+                    ? request.getPanchayatName()
+                    : request.getPanchayatSlug(); // Use slug as name if not provided
+            
+            String district = request.getDistrict() != null ? request.getDistrict() : "";
+            String state = request.getState() != null ? request.getState() : "";
+            
+            panchayat = Panchayat.builder()
+                    .panchayatName(panchayatName)
+                    .slug(request.getPanchayatSlug().toLowerCase().trim())
+                    .district(district)
+                    .state(state)
+                    .status(PanchayatStatus.ACTIVE)
+                    .build();
+            panchayat = panchayatService.create(panchayat);
+        }
 
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
+                .designation(request.getDesignation())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.PANCHAYAT_ADMIN)
                 .status(UserStatus.ACTIVE)

@@ -61,6 +61,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/v1/public/**").permitAll()
                         .requestMatchers("/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/admin/**").permitAll()
+                        .requestMatchers("/api/v1/panchayat/**").permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
 //                        .requestMatchers("/api/v1/admin/**").hasRole("SUPER_ADMIN")
 //                        .requestMatchers("/api/v1/panchayat/**").hasRole("PANCHAYAT_ADMIN")

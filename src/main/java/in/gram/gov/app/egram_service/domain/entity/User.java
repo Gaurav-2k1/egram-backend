@@ -49,6 +49,10 @@ public class User extends BaseEntity {
     @Column(name = "phone", length = 15)
     private String phone;
 
+    @Size(max = 100)
+    @Column(name = "designation", length = 100)
+    private String designation;
+
     @NotBlank(message = "Password is required")
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;

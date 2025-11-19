@@ -37,7 +37,7 @@ public class PostFacade {
                 .mediaUrl(request.getMediaUrl())
                 .panchayat(panchayat)
                 .author(author)
-                .status(PostStatus.DRAFT)
+                .status(PostStatus.PUBLISHED)
                 .viewCount(0L)
                 .build();
 
